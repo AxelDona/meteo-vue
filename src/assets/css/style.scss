@@ -4,18 +4,36 @@
   box-sizing: border-box;
 }
 
-$weather-status: 'clear', 'clouds', 'snow', 'rain', 'mist', 'dust', 'drizzle', 'smoke', 'haze','fog', 'sand', 'ash', 'squall', 'tornado';
 $white: #ffffff;
+$transpBlack: rgba(0, 0, 0, 0.6);
 
+$weatherStatus: 'clear', 'clouds', 'snow', 'rain', 'mist', 'dust', 'drizzle', 'smoke', 'haze','fog', 'sand', 'ash', 'squall', 'tornado';
 
-@each $status in $weather-status{
+@each $status in $weatherStatus{
   body #app.#{$status}{
     background-image: url('./assets/#{$status}-bg.jpg');
   }
 }
 
+$default: #16db93;
+$very-cold: #9d4edd;
+$cold: #4cc9f0;
+$medium: $default;
+$hot: #ffdd00;
+$very-hot: #f46036;
+$very-very-hot: #ff0a54;
+$tempStatusClasses: very-cold cold medium hot very-hot very-very-hot;
+$tempStatusColors: (very-cold:$very-cold, cold:$cold, medium:$medium, hot:$hot, very-hot:$very-hot, very-very-hot:$very-very-hot);
+
+@each $class in $tempStatusClasses{
+  body #app main .meteo-wrap .meteo-ctnr .temp div #number.#{$class}{
+    color : map-get($tempStatusColors, #{$class});
+    text-shadow: 0 0 30px rgba(map-get($tempStatusColors, #{$class}), 0.3);
+  }
+}
+
 body{
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', sans-serif;
 
   #app {
     background-image : url('./assets/default-bg.jpg');
@@ -30,11 +48,13 @@ body{
 
       .search-ctnr {
         width : 100%;
-        margin-bottom : 30px;
+        margin-bottom : 15px;
 
         .search-bar{
           display : block;
-          width : 100%;
+          max-width: 450px;
+          width: 100%;
+          margin: 0 auto;
           padding : 15px;
           color : #313131;
           font-size : 20px;
@@ -42,10 +62,14 @@ body{
           border : none;
           outline : none;
           background : none;
-          box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
           background-color : rgba(255, 255, 255, 0.5);
           border-radius : 0px 16px 0px 16px;
           transition : 400ms;
+
+          &::placeholder{
+            color: #404040;
+          }
 
           &:focus{
             box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
@@ -57,61 +81,107 @@ body{
       }
 
       .meteo-wrap{
+        background-color: $transpBlack;
+        max-width: 450px;
+        width: 100%;
+        margin: 0 auto;
+        border-radius: 16px;
+        padding: 15px 20px;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+
+        hr{
+          width: 100%;
+          margin: 15px auto 25px auto;
+          background-color: $white;
+          height: 0.2px;
+          border: none;
+        }
 
         .loc-ctnr{
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
 
           .loc{
             color : $white;
             font-size : 32px;
-            font-weight : 500;
-            text-align : center;
-            text-shadow : 1px 3px rgba(0, 0, 0, 0.25);
+            line-height: 36px;
+
+            .city{
+              text-transform: uppercase;
+              font-weight : 600;
+            }
+
+            .country{
+              padding-left: 7px;
+              font-weight: 200;
+            }
           }
 
           .date{
             color : $white;
-            font-size : 20px;
-            font-weight : 300;
-            font-style: italic;
-            text-align: center;
+            font-size : 18px;
+            font-weight : 200;
+            text-align: right;
+            padding-left: 25px;
+            padding-top: 10px;
+            align-self: flex-end;
           }
 
-        }
+        } /*loc-ctnr*/
 
         .meteo-ctnr{
-          text-align: center;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          min-height: 140px;
 
           .temp{
-            display: inline-block;
-            padding: 10px 25px;
-            color : #90e0ef;
-            font-size : 102px;
-            font-weight : 800;
-            text-shadow:
-                    8px 8px #00b4d8,
-                    20px 20px #0077b6;
-            background-color : rgba(0, 0, 0, 0.25);
-            border : 1px solid $white;
-            border-radius: 2px;
-            margin : 30px 0px;
-            -webkit-text-stroke-width: 1px;
             transition-duration: 400ms;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            position: relative;
+            padding-left: 25px;
 
-            &.warm{
-              color : #e85d04;
-              text-shadow:
-                      8px 8px #d00000,
-                      20px 20px #6a040f;
+            div{
+              position: absolute;
+              top: -28px;
+              left: 0;
+              display: flex;
+              justify-content: flex-start;
+              align-items: flex-start;
+
+              #number{
+                font-family: 'Cabin', sans-serif;
+                font-size : 134px;
+                font-weight: 700;
+              }
+
+              #celsius{
+                font-size: 30px;
+                font-weight: 600;
+                padding-left: 4px;
+                padding-top: 26px;
+                color: $white;
+
+              }
             }
 
-            #celsius{
-              -webkit-text-fill-color: rgba(0, 0, 0, 0.25);
-              -webkit-text-stroke-width: 1px;
-              -webkit-text-stroke-color: $white;
-              text-shadow: none;
-              padding-left: 15px;
-            }
 
+          }
+
+          .meteo{
+            color : #ffffff;
+            font-size: 32px;
+            font-weight: 200;
+            text-transform: capitalize;
+            max-width: calc(100% - 170px);
+            text-align: right;
+            align-self: center;
+            padding-bottom: 25px;
+            line-height: 40px;
           }
 
           .icon-ctnr{
@@ -133,43 +203,44 @@ body{
 
           }
 
-          .meteo{
-            color : #ffffff;
-            font-size: 40px;
-            font-weight: 300;
-            text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
-            text-transform: capitalize;
-          }
 
-          .more-info{
-            color : #ffffff;
-            font-size: 18px;
-            font-weight: 300;
-            text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+        } /*meteo-ctnr*/
 
-            table{
-              margin: 0 auto;
-              text-align: left;
-              border: 1px solid #dddddd;
-              border-radius: 2px;
+        .more-info{
+          color: $white;
+          font-size: 18px;
+          font-weight: 300;
+          text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+          width: 100%;
+          display: flex;
+          justify-content: flex-start;
 
-              td{
-                background-color: rgba(0, 0, 0, 0.25);
-                padding: 0 10px;
+          table{
+            text-align: left;
+
+            td{
+              padding: 0 10px;
+
+              &.info-value{
+                font-size: 22px;
+
+                .value{
+                  font-weight: 600;
+                }
+
+                .unit{
+                  font-weight: 200;
+                }
               }
 
+              &.info-desc{
+                font-size: 14px;
+                text-transform: uppercase;
+              }
             }
-
-            .info-value{
-              font-size: 22px;
-              font-weight: 700;
-            }
-
           }
-
-        }
+        } /*more-info*/
       }
     }
   }
-
 }
