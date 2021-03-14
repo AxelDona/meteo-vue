@@ -174,14 +174,15 @@ body{
 
           .meteo{
             color : #ffffff;
-            font-size: 32px;
+            font-size: 22px;
             font-weight: 200;
             text-transform: capitalize;
-            max-width: calc(100% - 170px);
+            max-width: calc(100% - 160px);
             text-align: right;
             align-self: center;
             padding-bottom: 25px;
-            line-height: 40px;
+            line-height: 28px;
+            hyphens: auto;
           }
 
           .icon-ctnr{
@@ -226,6 +227,7 @@ body{
 
                 .value{
                   font-weight: 600;
+                  width: 130px;
                 }
 
                 .unit{
