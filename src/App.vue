@@ -79,8 +79,10 @@ export default {
     fetchWeather(e) {
       if (e.key == "Enter") {
         this.tellWeather();
-        document.getElementById('searchbar').blur();
-        this.tellWeather();
+        if (window.matchMedia("(max-width: 600px)").matches){
+          document.getElementById('searchbar').blur();
+          this.tellWeather();
+        }
         this.query = '';
       }
     },
